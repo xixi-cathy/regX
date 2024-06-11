@@ -1,5 +1,5 @@
 # regX
-This repository stores the custom codes for the paper "A mechanism-informed deep neural network enables prioritization of regulators that drive cell state transitions".
+This repository stores the custom code for the paper "A mechanism-informed deep neural network enables prioritization of regulators that drive cell state transitions".
 
 Users may run the scripts in each folder in a numbered order to reproduce the results in the paper. For example, "0.preprocess_HairFollicle.R.ipynb" and "0.process_JASPAR_pfm.py" are the first processing steps, and "1.nn_train_step1.py" is the second step.
 
