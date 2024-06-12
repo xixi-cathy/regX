@@ -58,44 +58,44 @@ We provide two examples to demonstrate the usage of regX. Users may run the scri
 * GO annotation file "mgi.gaf": download from https://current.geneontology.org/annotations/mgi.gaf.gz.
 
 ### Step-by-step workflow
-The custom code for the T2D example was stored in the ".examples/Hair_follicle" folder. Users need to modify the working directories according to their date deposition before running the scripts. We provide the output files in each step [here](https://zenodo.org/records/11607943?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIwN2NhYjhlLThmNGQtNDllOC1iYWI2LTVmNThlZTVjNzkyMiIsImRhdGEiOnt9LCJyYW5kb20iOiIzM2I1YmYzNGQzNTViYjg3MGZlZDY4MDM3YjJhMmY1MyJ9.HBiLzhKg0-Hfnr7TrinVhhKuk_JkC4X5b4QEs3i7Fuebw0zQAJM8CVVew_7SqZPf6RYDq0gjBRayt8s8XL3kIQ).
+The custom code for the T2D example was stored in the "examples/Hair_follicle" folder. Users need to modify the working directories according to their date deposition before running the scripts. We provide the output files in each step [here](https://zenodo.org/records/11607943?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIwN2NhYjhlLThmNGQtNDllOC1iYWI2LTVmNThlZTVjNzkyMiIsImRhdGEiOnt9LCJyYW5kb20iOiIzM2I1YmYzNGQzNTViYjg3MGZlZDY4MDM3YjJhMmY1MyJ9.HBiLzhKg0-Hfnr7TrinVhhKuk_JkC4X5b4QEs3i7Fuebw0zQAJM8CVVew_7SqZPf6RYDq0gjBRayt8s8XL3kIQ).
 
-1. **Process the single-cell multi-omics dataset.**
+1. **[Process the single-cell multi-omics dataset.](example_code/Hair_follicle/0.preprocess_HairFollicle.R.ipynb)**
   
    **Expected outputs**: Pseudo-bulk samples and labels for model training.   
    This step takes about an hour.
    
-2. **Process the JASPAR PFM matrix files.**
+2. **[Process the JASPAR PFM matrix files.](example_code/Hair_follicle/0.process_JASPAR_pfm.py)**
    
    **Expected outputs**: .npy files storing the PFM matrices of motifs.   
    This step takes about 2 minutes.
    
-3. **Process the gene-GO links and GO graph embedded in the model.**
+3. **[Process the gene-GO links and GO graph embedded in the model.](example_code/Hair_follicle/0.process_GO)**
 
    **Expected outputs**: gene-GO and GO-GO interactions.   
    This step takes about 10 minutes.
    
-4. **The first step of training for regX.**
+4. **[The first step of training for regX.](example_code/Hair_follicle/1.nn_train_step1.py)**
    
    **Expected outputs**: the trained gene-level models and performance (each model was trained for three times under random seeds).   
    This step takes about 2-3 hours on the GPU.
 
-5. **Extract the TAM matrices.**
+5. **[Extract the TAM matrices.](example_code/Hair_follicle/2.generate_TAM.py.ipynb)**
 
    **Expected outputs**: The input TAM matrices, output labels and metadata for regX.   
    This step takes about an hour.
    
-6. **The second step of training for regX.**
+6. **[The second step of training for regX.](example_code/Hair_follicle/3.nn_train_step2.py)**
 
    **Expected outputs**: parameters of the trained model (the model was trained for 10 times under random seeds).    
    This step takes about 2 hours on gpu.
 
-7. **Model interpretation: in-silico perturbation.**
+7. **[Model interpretation: in-silico perturbation.](example_code/Hair_follicle/4.in-silico_perturbation.py.ipynb)**
 
    **Expected outputs**: state-transitional probabilities before and after in-silico perturbation of TFs.   
    This step takes about 5 minutes on the GPU.
 
-8. **Prioritization and visualization of pdTFs.**
+8. **[Prioritization and visualization of pdTFs.](example_code/Hair_follicle/5.prioritization_and_visualization.py.ipynb)**
 
    **Expected outputs**: state transitional graphs.   
    This step takes about 2 minutes. The output files were provided in Extended Data Figures.
@@ -112,49 +112,49 @@ The custom code for the T2D example was stored in the ".examples/Hair_follicle" 
 * The genomic annotations of significant GWAS SNPs of T2D: download from the UCSC genome browser, or download the processed file from the "data" folder (https://github.com/xixi-cathy/regX/tree/main/data/GWAS_T2D_hg19_UCSC.csv).
 
 ### Step-by-step workflow
-The custom code for the T2D example was stored in the ".examples/T2D" folder. Users need to modify the working directories according to their date deposition before running the scripts. We provide part of the output files [here](https://zenodo.org/records/11608076?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjVhMzk5Nzk0LWQ0MDYtNDE3Yi1hNjZhLThjMmJhMDU0NjgyMyIsImRhdGEiOnt9LCJyYW5kb20iOiI1YjQ2Nzc3OTQ1OTNkNzkzMTU3ODU5YjBmZDNkMDdkNSJ9.Ha_9ZGH5wEOaiSu3LTRlqPgcbkQUVzrUN8DPkWeGRAZ3LArNlcRgDrxdESyXKpv7ag81twiWpz9TWsnTZwJMkg). The rest files are relatively large, and can be provided upon request.
+The custom code for the T2D example was stored in the "examples/T2D" folder. Users need to modify the working directories according to their date deposition before running the scripts. We provide part of the output files [here](https://zenodo.org/records/11608076?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjVhMzk5Nzk0LWQ0MDYtNDE3Yi1hNjZhLThjMmJhMDU0NjgyMyIsImRhdGEiOnt9LCJyYW5kb20iOiI1YjQ2Nzc3OTQ1OTNkNzkzMTU3ODU5YjBmZDNkMDdkNSJ9.Ha_9ZGH5wEOaiSu3LTRlqPgcbkQUVzrUN8DPkWeGRAZ3LArNlcRgDrxdESyXKpv7ag81twiWpz9TWsnTZwJMkg). The rest files are relatively large, and can be provided upon request.
 
-1. **Process the single cell multi-omics dataset.**
+1. **[Process the single cell multi-omics dataset.](example_code/T2D/0.preprocess_T2D.R.ipynb)**
   
    **Expected outputs**: DE genes of cells from normal, non-diabetic and diabetic donors; pseudo-bulk samples and labels for model training.   
    This step takes about an hour.
    
-2. **Process the JASPAR PFM matrix files.**
+2. **[Process the JASPAR PFM matrix files.](example_code/T2D/0.process_JASPAR_pfm.py)**
    
    **Expected outputs**: .npy files storing the PFM matrices of motifs.   
    This step takes about 2 minutes.
    
-3. **The first step of training for regX.**
+3. **[The first step of training for regX.](example_code/T2D/1.nn_train_step1.py)**
    
    **Expected outputs**: the trained gene-level models (each model was trained for three times under random seeds).   
    **Note:** This step takes more than 12 hours by running four scripts (1/4 genes in each script) simultaneously on the GPU.
 
-4. **Extract the TAM matrices.**
+4. **[Extract the TAM matrices.](example_code/T2D/2.generate_TAM.py.ipynb)**
 
    **Expected outputs**: The input TAM matrices, output labels and metadata for regX.   
    This step takes about an hour.
    
-5. **Process the PPI network embedded in the model.**
+5. **[Process the PPI network embedded in the model.](example_code/T2D/2.process_STRING_ppi.R.ipynb)**
 
    **Expected outputs**: filtered PPI links.   
    This step takes about 10 minutes.
    
-6. **The second step of training for regX.**
+6. **[The second step of training for regX.](example_code/T2D/3.nn_train_step2.py)**
 
    **Expected outputs**: parameters of the trained model (the model was trained for 10 times under random seeds).    
    This step takes about 2 hours on gpu.
 
-7. **Model interpretation: in-silico perturbation.**
+7. **[Model interpretation: in-silico perturbation.](example_code/T2D/4.in-silico_perturbation.py.ipynb)**
 
    **Expected outputs**: state-transitional probabilities before and after in-silico perturbation of TFs and cCREs.   
    **Note:** This step takes about 12 hours on the GPU (mainly because perturbing the cCREs is time-consuming).
 
-8. **Prioritization and visualization of pdTFs and pdCREs.**
+8. **[Prioritization and visualization of pdTFs and pdCREs.](example_code/T2D/5.prioritization_and_visualization.py.ipynb)**
 
    **Expected outputs**: state transitional graphs.   
    This step takes about 2 minutes. The output files were provided in Extended Data Figures.
    
-9. **Model interpretation: prioritize target genes of a pdTF.**
+9. **[Model interpretation: prioritize target genes of a pdTF.](example_code/T2D/6.TGs_of_pdTFs.py.ipynb)**
    
    **Expected outputs**: prioritization list of the target genes.   
    This step takes about 5 minutes. The output files were provided in Supplementary tables.
