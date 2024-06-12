@@ -58,7 +58,7 @@ We provide two examples to demonstrate the usage of regX. Users may run the scri
 * GO annotation file "mgi.gaf": download from https://current.geneontology.org/annotations/mgi.gaf.gz.
 
 ### Step-by-step workflow
-The custom code for the T2D example was stored in the "examples/Hair_follicle" folder. Users need to modify the working directories according to their date deposition before running the scripts. We provide the output files in each step [here](https://zenodo.org/records/11607943?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIwN2NhYjhlLThmNGQtNDllOC1iYWI2LTVmNThlZTVjNzkyMiIsImRhdGEiOnt9LCJyYW5kb20iOiIzM2I1YmYzNGQzNTViYjg3MGZlZDY4MDM3YjJhMmY1MyJ9.HBiLzhKg0-Hfnr7TrinVhhKuk_JkC4X5b4QEs3i7Fuebw0zQAJM8CVVew_7SqZPf6RYDq0gjBRayt8s8XL3kIQ).
+The custom code for the T2D example was stored in the "example_code/Hair_follicle" folder. Users need to modify the working directories according to their date deposition before running the scripts. We provide the output files in each step [here](https://zenodo.org/records/11607943?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIwN2NhYjhlLThmNGQtNDllOC1iYWI2LTVmNThlZTVjNzkyMiIsImRhdGEiOnt9LCJyYW5kb20iOiIzM2I1YmYzNGQzNTViYjg3MGZlZDY4MDM3YjJhMmY1MyJ9.HBiLzhKg0-Hfnr7TrinVhhKuk_JkC4X5b4QEs3i7Fuebw0zQAJM8CVVew_7SqZPf6RYDq0gjBRayt8s8XL3kIQ).
 
 1. **[Process the single-cell multi-omics dataset.](example_code/Hair_follicle/0.preprocess_HairFollicle.R.ipynb)**
   
@@ -112,7 +112,7 @@ The custom code for the T2D example was stored in the "examples/Hair_follicle" f
 * The genomic annotations of significant GWAS SNPs of T2D: download from the UCSC genome browser, or download the processed file from the "data" folder (https://github.com/xixi-cathy/regX/tree/main/data/GWAS_T2D_hg19_UCSC.csv).
 
 ### Step-by-step workflow
-The custom code for the T2D example was stored in the "examples/T2D" folder. Users need to modify the working directories according to their date deposition before running the scripts. We provide part of the output files [here](https://zenodo.org/records/11608076?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjVhMzk5Nzk0LWQ0MDYtNDE3Yi1hNjZhLThjMmJhMDU0NjgyMyIsImRhdGEiOnt9LCJyYW5kb20iOiI1YjQ2Nzc3OTQ1OTNkNzkzMTU3ODU5YjBmZDNkMDdkNSJ9.Ha_9ZGH5wEOaiSu3LTRlqPgcbkQUVzrUN8DPkWeGRAZ3LArNlcRgDrxdESyXKpv7ag81twiWpz9TWsnTZwJMkg). The rest files are relatively large, and can be provided upon request.
+The custom code for the T2D example was stored in the "example_code/T2D" folder. Users need to modify the working directories according to their date deposition before running the scripts. We provide part of the output files [here](https://zenodo.org/records/11608076?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjVhMzk5Nzk0LWQ0MDYtNDE3Yi1hNjZhLThjMmJhMDU0NjgyMyIsImRhdGEiOnt9LCJyYW5kb20iOiI1YjQ2Nzc3OTQ1OTNkNzkzMTU3ODU5YjBmZDNkMDdkNSJ9.Ha_9ZGH5wEOaiSu3LTRlqPgcbkQUVzrUN8DPkWeGRAZ3LArNlcRgDrxdESyXKpv7ag81twiWpz9TWsnTZwJMkg). The rest files are relatively large, and can be provided upon request.
 
 1. **[Process the single cell multi-omics dataset.](example_code/T2D/0.preprocess_T2D.R.ipynb)**
   
@@ -160,4 +160,4 @@ The custom code for the T2D example was stored in the "examples/T2D" folder. Use
    This step takes about 5 minutes. The output files were provided in Supplementary tables.
 
 # Instructions for use on your own data
-regX is a relatively flexible deep learning framework. The prediction tasks and model structures can be flexibly designed according to the application scenario. In general, you may refer to the instructions and workflows demonstrated in the two examples. You may also contact us for more technical support.
+regX is a relatively flexible deep learning framework. The prediction tasks and model structures can be flexibly designed according to the application scenario. In general, you may refer to the instructions and workflows demonstrated in the two . You may also contact us for more technical support.
