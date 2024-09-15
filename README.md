@@ -44,6 +44,42 @@ To run a Jupyter Notebook with R, please follow instructions [here](https://izod
 
 The installation and environment setup normally takes about 2 hours.
 
+# Usage on your own data
+regX is a relatively flexible deep learning framework. The prediction tasks and model structures can be flexibly designed according to users' application scenario. 
+## Data preparation
+1. Download files in the data folder, and unzip them.
+2. Prepare the RNA, ATAC, and label files, and a list of target genes (better not exceeding 300, or the computational cost will be very high) that you wish to be included in the hidden layer.
+   The name and format of these files should be the same as the "rna.csv", "atac.csv", "label.csv", and "genes.txt" we provided.
+   
+conda activate regX
+codepath=/home/xixi/scRegulate/code_upload/custom_code
+filepath=/data1/xixi/regX/code_test/
+savepath=/data1/xixi/regX/code_test/
+refgenome=mm10
+device=cuda:3
+cd $codepath
+python learn_W.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device
+python generate_TAM.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device
+
+cd $filepath
+for human: 
+wget https://stringdb-downloads.org/download/protein.links.v12.0/9606.protein.links.v12.0.txt.gz
+wget https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz
+for mouse:
+wget https://stringdb-downloads.org/download/protein.links.v12.0/10090.protein.links.v12.0.txt.gz
+wget https://stringdb-downloads.org/download/protein.info.v12.0/10090.protein.info.v12.0.txt.gz
+gunzip *.gz
+conda deactivate
+conda activate Renv
+cd $codepath
+Rscript process_ppi.R $filepath $savepath mouse
+
+python run_regX.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GCN --replicates 5 --batchsize 256 --lr 0.001
+
+python prioritize_TF.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GAT --batchsize 256 --lr 0.001
+
+In general, you may refer to the instructions and workflows demonstrated in the two . You may also contact us for more technical support.
+
 # Usage examples
 We provide two examples to demonstrate the usage of regX. Users may run the scripts in each example folder in a numbered order.
 
@@ -158,6 +194,3 @@ The custom code for the T2D example was stored in the "example_code/T2D" folder.
    
    **Expected outputs**: prioritization list of the target genes.   
    This step takes about 5 minutes. The output files were provided in Supplementary tables.
-
-# Instructions for use on your own data
-regX is a relatively flexible deep learning framework. The prediction tasks and model structures can be flexibly designed according to the application scenario. In general, you may refer to the instructions and workflows demonstrated in the two . You may also contact us for more technical support.
