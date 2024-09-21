@@ -50,7 +50,8 @@ regX is a relatively flexible deep learning framework. The prediction tasks and 
 1. Download files in the data folder, and unzip them.
 2. Prepare the RNA, ATAC, and label files, and a list of target genes (better not exceeding 300, or the computational cost will be very high) that you wish to be included in the hidden layer.
    The name and format of these files should be the same as the "rna.csv", "atac.csv", "label.csv", and "genes.txt" we provided.
-   
+
+Basic set-up:
 conda activate regX
 codepath=/home/xixi/scRegulate/code_upload/custom_code
 filepath=/data1/xixi/regX/code_test/
@@ -58,6 +59,7 @@ savepath=/data1/xixi/regX/code_test/
 refgenome=mm10
 device=cuda:3
 cd $codepath
+
 python learn_W.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device
 python generate_TAM.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device
 
@@ -76,9 +78,14 @@ Rscript process_ppi.R $filepath $savepath mouse
 
 python run_regX.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GCN --replicates 5 --batchsize 256 --lr 0.001
 
-python prioritize_TF.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GAT --batchsize 256 --lr 0.001
+python prioritize_TF.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GAT --batchsize 256 --lr 0.001 --top 5
+python prioritize_cCRE.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GAT --batchsize 256 --lr 0.001 --top 100
 
-In general, you may refer to the instructions and workflows demonstrated in the two . You may also contact us for more technical support.
+We also provide a lightweight version of the regX model (regX-light) by replacing the TAM with the TF and cCRE concatenated feature vector. It only needs one step of training, and can be used for TF but not cCRE prioritization (see the discussion section in our paper for more details). We still recommend the TAM approach, but this might be a choice for those who lack computational resources and only want to identify driver TFs. To use regX-light, skip step xxx. After processing PPI (or skipping this step too if you use a GO graph), run the following line:
+
+
+
+In general, you may refer to the instructions and workflows in the two examples below. You may also contact us for more technical support.
 
 # Usage examples
 We provide two examples to demonstrate the usage of regX. Users may run the scripts in each example folder in a numbered order.
