@@ -17,8 +17,8 @@ pip install -r requirements.txt
 
 To set up your R environment (optional, needed only for reproducing the two usage examples):
 ```
-conda create --name Renv python=3.10
-conda activate Renv
+conda create --name regX_Renv python=3.10
+conda activate regX_Renv
 conda install r-base
 ```
 And install R packages listed in the "Software preparation" section.
