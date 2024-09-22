@@ -4,31 +4,18 @@ This repository stores the custom code for the paper "A mechanism-informed deep 
 # Contact
 Xi Xi (xix19@mails.tsinghua.edu.cn)
 
-# Software preparation
-Prepare the Python and R (optional, only for reproducing the two examples below) environment on a Linux system.
-
-We use the following Python packages with python 3.10.4 under the Anaconda environment (conda 23.1.0):  
-torch: 1.13.1+cu117; numpy: 1.23.4; scipy: 1.8.1; pandas: 1.4.1; scikit-learn: 1.1.3;  anndata:0.8.0; captum: 0.6.0; scanpy: 1.9.1; seaborn: 0.12.1; pyfaidx: 0.7.1; h5py: 3.7.0; verstack: 3.6.7.
-
-We use the following R packages with R 4.2.2:  
-dplyr: 1.1.0; ggplot2: 3.4.1; EnsDb.Hsapiens.v75: 2.99.0; EnsDb.Mmusculus.v79: 2.99.0; SeuratDisk: 0.0.0.9020; Seurat: 4.3.0; Signac: 1.9.0; Matrix: 1.6-1.1; DIRECTNET: 0.0.1.
-
-We use the following R packages with R 4.1.3:   
-SeuratWrappers: 0.3.1; monocle3: 1.3.1.
-
-We also used the PLINK software (v1.90b7.2 64-bit) on a Windows PC.
 
 # Environment setup
-We strongly recommend you install Anaconda3, where we use Python and R.
+We highly recommend installing Anaconda3, which supports isolated Python and R environments.
 
 To set up your Python environment:
 ```
-conda create --name pyenv python=3.10
-conda activate pyenv
+conda create --name regX python=3.10
+conda activate regX
 pip install -r requirements.txt
 ```
 
-To set up your R environment (optional):
+To set up your R environment (optional, needed only for reproducing the two usage examples):
 ```
 conda create --name Renv python=3.10
 conda activate Renv
@@ -36,72 +23,121 @@ conda install r-base
 ```
 And install R packages listed in the "Software preparation" section.
 
-Also, install jupyter in your conda environment to run the notebook files:
+Additionally, install Jupyter in your conda environment to run the notebook files:
 ```
 conda install jupyter
 ```
-To run a Jupyter Notebook with R, please follow instructions [here](https://izoda.github.io/site/anaconda/r-jupyter-notebook/).
+To run a Jupyter Notebook with R, please follow the instructions [here](https://izoda.github.io/site/anaconda/r-jupyter-notebook/).
 
 The installation and environment setup normally takes about 2 hours.
 
-# Usage on custom data
+# Usage on your own data
 ## Data preparation
 1. Download files in the data folder, and unzip them.
-2. Prepare the RNA, ATAC, and label files, and a list of target genes (better not exceeding 300, or the computational cost will be very high) that you wish to be included in the hidden layer.
-   The name and format of these files should be the same as the "rna.csv", "atac.csv", "label.csv", and "genes.txt" we provided.
+2. (Compulsory) Replace the "rna.csv", "atac.csv", "label.csv", and "genes.txt" files with your own data. The file names and formats should be the same as what we provided.
 
-Basic set-up:
-conda activate regX
-codepath=/home/xixi/scRegulate/code_upload/custom_code
-filepath=/data1/xixi/regX/code_test/
-savepath=/data1/xixi/regX/code_test/
-species=mouse
-refgenome=mm10
-device=cuda:3
-cd $codepath
+   "rna.csv" contains the normalized gene expression levels of pseudo-bulk samples. "atac.csv" contains the normalized chromatin accessibilities of corresponding samples. "label.csv" contains the cell state labels of these samples. "genes.txt" contains a list of target genes to be included in the hidden layer of regX (better not to exceed 300 genes, or the computational cost will be very high).
+   
+3. (Optional) If you want to embed GO functions into regX, replace the "go_filtered.txt" and "goa_filtered.txt" files with the GO graph and related GO annotations that you selected.
 
-python learn_W.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device
-python generate_TAM.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device
+   You may refer to our [example code](example_code/Hair_follicle/0.process_GO) for more detail.
+   
+   Genes in the "genes.txt" file should be consistent with those in the GO graph that you selected.
+   
+4. (Optional) If you want to embed PPIs into regX, download PPI networks from the STRING database, and put them in the same directory as the aforementioned data files. For example:
+   ```
+   filepath=/data1/xixi/regX/code_test/
+   cd $filepath
+   ```
+   For human: 
+   ```
+   wget https://stringdb-downloads.org/download/protein.links.v12.0/9606.protein.links.v12.0.txt.gz
+   wget https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz
+   ```
+   For mouse:
+   ```
+   wget https://stringdb-downloads.org/download/protein.links.v12.0/10090.protein.links.v12.0.txt.gz
+   wget https://stringdb-downloads.org/download/protein.info.v12.0/10090.protein.info.v12.0.txt.gz
+   ```
+   Then, unzip these files:
+   ```
+   gunzip *.gz
+   ```
+## Step-by-step workflow
+1. Basic setup
 
-cd $filepath
-for human: 
-```
-wget https://stringdb-downloads.org/download/protein.links.v12.0/9606.protein.links.v12.0.txt.gz
-wget https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz
-```
-for mouse:
-```
-wget https://stringdb-downloads.org/download/protein.links.v12.0/10090.protein.links.v12.0.txt.gz
-wget https://stringdb-downloads.org/download/protein.info.v12.0/10090.protein.info.v12.0.txt.gz
-```
-Then, unzip these files:
-```
-gunzip *.gz
-```
-Extracting a sub-network of the PPI:
-```
-cd $codepath
-python process_ppi.py --filepath $filepath --savepath $savepath --species $species
-```
-Training the regX model:
-```
-python run_regX.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GCN --replicates 5 --batchsize 256 --lr 0.001
-```
-Prioritizing TFs and cCREs:
-```
-python prioritize_TF.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GAT --batchsize 256 --lr 0.001 --top 5
-python prioritize_cCRE.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GAT --batchsize 256 --lr 0.001 --top 100
-```
-We also provide a lightweight version of the regX model (regX-light) by replacing the TAM with the TF and cCRE concatenated feature vector. It only needs one step of training, and can be used for TF but not cCRE prioritization (see the discussion section in our paper for more details). We still recommend the TAM approach, but this might be a choice for those who lack computational resources and only want to identify driver TFs. To use regX-light, skip step xxx. After processing PPI (or skipping this step too if you use a GO graph), run the following line:
+   Before starting, ensure that the Python environment 'regX' is properly set up. Then, activate the environment, define the necessary variables, and navigate to the code directory:
+   ```
+   conda activate regX
+   codepath=/home/xixi/scRegulate/code_upload/custom_code     # Folder path where you stored the custom code 
+   filepath=/data1/xixi/regX/code_test/                       # Folder path where you stored the data
+   savepath=/data1/xixi/regX/code_test/                       # Folder path where you decided to save the processing and result files
+   species=mouse                                              # Species of your data. We only support "human" and "mouse" for now.
+   refgenome=mm10                                             # Reference genome. We only support "hg19" and "mm10" for now.
+   device=cuda:3                                              # Device for model training and interpretation. We highly recommend using GPU.
+   cd $codepath
+   ```
+
+2. First step of training: learn the input feature matrix TAM
+
+   (Runtime on the demo data: ~ 2 hours)
+   ```
+   python learn_W.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device
+   python generate_TAM.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device
+   ```
+
+3. (Optional) Extract a PPI sub-network:
+
+   (Runtime on the demo data: < 1 minute)
+   ```
+   python process_ppi.py --filepath $filepath --savepath $savepath --species $species
+   ```
+   You may skip this step if using a GO graph.
+
+4. Second step of training: train the regX model
+
+   (Runtime on the demo data: < 10 minutes)
+   ```
+   python run_regX.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GCN --replicates 5 --batchsize 256 --lr 0.001
+   ```
+   You may freely choose a GCN, SAGEConv, or GAT model according to your needs. We recommend using GCN or SAGEConv for an undirected PPI network, and GAT for a directed GO graph. The performance of these structures on our demo data is relatively close, and can be found [here](figures/performance_comparison.png).
+
+5. Prioritize TFs and cCREs
+
+   **For TF prioritization:**
+   
+   (Runtime on the demo data: < 5 minutes)
+   ```
+   python prioritize_TF.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GCN --batchsize 256 --lr 0.001 --top 5
+   ```
+   In silico upregulation and downregulation of each TF will be performed, respectively. TFs in the "...TF_rank_upregulation.csv" file mean that the upregulation of these TFs will induce corresponding cell state transitions, and TFs in the "...TF_rank_downregulation.csv" file mean that the downregulation of these TFs will induce corresponding cell state transitions.
+   
+   You may assign the number of top-ranked TFs between every two states with "--top".
+   
+   
+   **For cCRE prioritization:**
+
+   (Runtime on the demo data: ~ 2 hours)
+   ```
+   python prioritize_cCRE.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GCN --batchsize 256 --lr 0.001 --top 100
+   ```
+   In silico opening and closing of each cCRE will be performed, respectively. You may assign the number of top-ranked cCREs between every two states with "--top".
+
+The trained models, top-ranked regulators, and cell state transition graphs can be found in the "results" folder. Some intermediate files can be found in the "processing" folder.
+
+**In addition:**
+
+&emsp;&emsp;We also offer a lightweight version of the regX model (regX-light), which replaces the TAM with a concatenated TF and cCRE feature vector. This version requires only one training step and can be used for TF prioritization, but not for cCRE prioritization (see the discussion section in our paper for more details). While we still recommend the TAM-based approach, regX-light could be a suitable option for those with limited computational resources who are primarily interested in identifying driver TFs. To use regX-light, you can skip steps 2-5 and run the following command:
+
+(Runtime on the demo data: < 10 minutes)
 ```
 python run_regX-light.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GCN --replicates 5 --batchsize 256 --lr 0.001 --top 5
 ```
 
 
+For more usage, please refer to the two examples below.
 
-regX is a flexible deep learning framework, whose structures can be flexibly designed according to users' application scenarios. For more analyses, please refer to the instructions and workflows in the two examples below. You may also contact us for more technical support.
-
-# Usage examples
+# Example cases
 We provide two examples to demonstrate the usage of regX. Users may run the scripts in each example folder in a numbered order.
 
 ## Hair follicle example
