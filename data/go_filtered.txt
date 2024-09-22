@@ -1,0 +1,14 @@
+id1	name	namespace	def	relation	id2
+GO:0031069	hair follicle morphogenesis	biological_process	"The process in which the anatomical structures of the hair follicle are generated and organized." [GOC:ln]	part_of	GO:0001942
+GO:0048820	hair follicle maturation	biological_process	"A developmental process, independent of morphogenetic (shape) change, that is required for a hair follicle to attain its fully functional state." [GOC:devbiol]	part_of	GO:0001942
+GO:0051797	regulation of hair follicle development	biological_process	"Any process that modulates the frequency, rate or extent of hair follicle development." [GOC:ai]	regulates	GO:0001942
+GO:0051798	positive regulation of hair follicle development	biological_process	"Any process that activates or increases the frequency, rate or extent of hair follicle development." [GOC:ai]	positively_regulates	GO:0001942
+GO:0051799	negative regulation of hair follicle development	biological_process	"Any process that stops, prevents, or reduces the frequency, rate or extent of hair follicle development." [GOC:ai]	negatively_regulates	GO:0001942
+GO:0060789	hair follicle placode formation	biological_process	"The developmental process in which a hair placode forms. An hair follicle placode is a thickening of the ectoderm that will give rise to the hair follicle bud." [GOC:dph, GOC:sdb_2009, GOC:tb]	part_of	GO:0001942
+GO:0042637	catagen	biological_process	"The regression phase of the hair cycle during which cell proliferation ceases, the hair follicle shortens, and an anchored club hair is produced." [PMID:12535193]	part_of	GO:0048820
+GO:0042640	anagen	biological_process	"The growth phase of the hair cycle. Lasts, for example, about 3 to 6 years for human scalp hair." [PMID:12230507]	part_of	GO:0048820
+GO:0051798	positive regulation of hair follicle development	biological_process	"Any process that activates or increases the frequency, rate or extent of hair follicle development." [GOC:ai]	is_a	GO:0051797
+GO:0051799	negative regulation of hair follicle development	biological_process	"Any process that stops, prevents, or reduces the frequency, rate or extent of hair follicle development." [GOC:ai]	is_a	GO:0051797
+GO:0051795	positive regulation of timing of catagen	biological_process	"Any process that activates or increases the frequency, rate or extent of timing of catagen, the regression phase of the hair cycle." [GOC:ai, GOC:pr]	positively_regulates	GO:0042637
+GO:0051885	positive regulation of timing of anagen	biological_process	"Any process that activates or increases the frequency, rate or extent of timing of anagen, the growth phase of the hair cycle." [GOC:ai, GOC:pr]	positively_regulates	GO:0042640
+GO:0051886	negative regulation of timing of anagen	biological_process	"Any process that stops, prevents, or reduces the frequency, rate or extent of timing of anagen, the growth phase of the hair cycle." [GOC:ai, GOC:pr]	negatively_regulates	GO:0042640
