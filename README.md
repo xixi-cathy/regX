@@ -5,7 +5,7 @@ This repository stores the custom code for the paper "A mechanism-informed deep 
 Xi Xi (xix19@mails.tsinghua.edu.cn)
 
 # Software preparation
-Prepare Python and R environment on a Linux system.
+Prepare the Python and R (optional, only for reproducing the two examples below) environment on a Linux system.
 
 We use the following Python packages with python 3.10.4 under the Anaconda environment (conda 23.1.0):  
 torch: 1.13.1+cu117; numpy: 1.23.4; scipy: 1.8.1; pandas: 1.4.1; scikit-learn: 1.1.3;  anndata:0.8.0; captum: 0.6.0; scanpy: 1.9.1; seaborn: 0.12.1; pyfaidx: 0.7.1; h5py: 3.7.0; verstack: 3.6.7.
@@ -16,7 +16,7 @@ dplyr: 1.1.0; ggplot2: 3.4.1; EnsDb.Hsapiens.v75: 2.99.0; EnsDb.Mmusculus.v79: 2
 We use the following R packages with R 4.1.3:   
 SeuratWrappers: 0.3.1; monocle3: 1.3.1.
 
-We also used PLINK software (v1.90b7.2 64-bit) on a Windows PC.
+We also used the PLINK software (v1.90b7.2 64-bit) on a Windows PC.
 
 # Environment setup
 We strongly recommend you install Anaconda3, where we use Python and R.
@@ -28,7 +28,7 @@ conda activate pyenv
 pip install -r requirements.txt
 ```
 
-To set up your R environment:
+To set up your R environment (optional):
 ```
 conda create --name Renv python=3.10
 conda activate Renv
@@ -44,8 +44,7 @@ To run a Jupyter Notebook with R, please follow instructions [here](https://izod
 
 The installation and environment setup normally takes about 2 hours.
 
-# Usage on your own data
-regX is a relatively flexible deep learning framework. The prediction tasks and model structures can be flexibly designed according to users' application scenario. 
+# Usage on custom data
 ## Data preparation
 1. Download files in the data folder, and unzip them.
 2. Prepare the RNA, ATAC, and label files, and a list of target genes (better not exceeding 300, or the computational cost will be very high) that you wish to be included in the hidden layer.
@@ -94,10 +93,13 @@ python prioritize_TF.py --filepath $filepath --savepath $savepath --ref $refgeno
 python prioritize_cCRE.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GAT --batchsize 256 --lr 0.001 --top 100
 ```
 We also provide a lightweight version of the regX model (regX-light) by replacing the TAM with the TF and cCRE concatenated feature vector. It only needs one step of training, and can be used for TF but not cCRE prioritization (see the discussion section in our paper for more details). We still recommend the TAM approach, but this might be a choice for those who lack computational resources and only want to identify driver TFs. To use regX-light, skip step xxx. After processing PPI (or skipping this step too if you use a GO graph), run the following line:
+```
+python run_regX-light.py --filepath $filepath --savepath $savepath --ref $refgenome --device $device --model GCN --replicates 5 --batchsize 256 --lr 0.001 --top 5
+```
 
 
 
-In general, you may refer to the instructions and workflows in the two examples below. You may also contact us for more technical support.
+regX is a flexible deep learning framework, whose structures can be flexibly designed according to users' application scenarios. For more analyses, please refer to the instructions and workflows in the two examples below. You may also contact us for more technical support.
 
 # Usage examples
 We provide two examples to demonstrate the usage of regX. Users may run the scripts in each example folder in a numbered order.
