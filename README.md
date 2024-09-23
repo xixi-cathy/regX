@@ -8,28 +8,25 @@ Xi Xi (xix19@mails.tsinghua.edu.cn)
 # Environment setup
 We highly recommend installing Anaconda3, which supports isolated Python and R environments.
 
-To set up your Python environment:
-```
-conda create --name regX python=3.10
-conda activate regX
-pip install -r requirements.txt
-```
+* **Python environment:**
+   ```
+   conda create --name regX python=3.10
+   conda activate regX
+   pip install -r requirements.txt
+   ```
 
-To set up your R environment (optional, needed only for reproducing the two usage examples):
-```
-conda create --name regX_Renv python=3.10
-conda activate regX_Renv
-conda install r-base
-```
-And install R packages listed in the "Software preparation" section.
-
-Additionally, install Jupyter in your conda environment to run the notebook files:
-```
-conda install jupyter
-```
-To run a Jupyter Notebook with R, please follow the instructions [here](https://izoda.github.io/site/anaconda/r-jupyter-notebook/).
-
-The installation and environment setup normally takes about 2 hours.
+* **R environment** (optional, needed only for reproducing the two usage examples):
+   ```
+   conda env create -f environment.yml
+   conda activate regXr
+   ```
+   Then, install the remaining packages in R:
+   ```
+   install.packages("BiocManager")
+   BiocManager::install(c("GenomeInfoDbData", "cicero", "chromVAR", "motifmatchr"))
+   
+   devtools::install_github(c("zhanglhbioinfor/DIRECT-NET", "mojaveazure/seurat-disk", "satijalab/seurat-wrappers@community-vignette"))
+   ```
 
 # Usage on your own data
 ## Data preparation
@@ -37,14 +34,16 @@ The installation and environment setup normally takes about 2 hours.
 2. (Compulsory) Replace the "rna.csv", "atac.csv", "label.csv", and "genes.txt" files with your own data. The file names and formats should be the same as what we provided.
 
    "rna.csv" contains the normalized gene expression levels of pseudo-bulk samples. "atac.csv" contains the normalized chromatin accessibilities of corresponding samples. "label.csv" contains the cell state labels of these samples. "genes.txt" contains a list of target genes to be included in the hidden layer of regX (better not to exceed 300 genes, or the computational cost will be very high).
+
+   For pre-processing single-cell multi-omics data and generating pseudo-bulk samples, you may refer to our [example code](example_code/T2D/0.preprocess_T2D.R.ipynb) for more detail.
    
-3. (Optional) If you want to embed GO functions into regX, replace the "go_filtered.txt" and "goa_filtered.txt" files with the GO graph and related GO annotations that you selected.
+4. (Optional) If you wish to integrate GO functions into regX, replace the "go_filtered.txt" and "goa_filtered.txt" files with the GO graph and related GO annotations that you selected.
 
    You may refer to our [example code](example_code/Hair_follicle/0.process_GO) for more detail.
    
    Genes in the "genes.txt" file should be consistent with those in the GO graph that you selected.
    
-4. (Optional) If you want to embed PPIs into regX, download PPI networks from the STRING database, and put them in the same directory as the aforementioned data files. For example:
+5. (Optional) If you wish to integrate PPIs into regX, download PPI networks from the STRING database and place them in the same directory as the data files mentioned above.
    ```
    filepath=/data1/xixi/regX/code_test/
    cd $filepath
@@ -138,7 +137,7 @@ python run_regX-light.py --filepath $filepath --savepath $savepath --ref $refgen
 For more usage, please refer to the two examples below.
 
 # Example cases
-We provide two examples to demonstrate the usage of regX. Users may run the scripts in each example folder in a numbered order.
+We provide two examples to demonstrate how to use regX. Users can run the scripts in each example folder in the specified numerical order.
 
 ## Hair follicle example
 
@@ -151,7 +150,7 @@ We provide two examples to demonstrate the usage of regX. Users may run the scri
 * GO annotation file "mgi.gaf": download from https://current.geneontology.org/annotations/mgi.gaf.gz.
 
 ### Step-by-step workflow
-The custom code for the T2D example was stored in the "example_code/Hair_follicle" folder. Users need to modify the working directories according to their date deposition before running the scripts. We provide the output files in each step [here](https://zenodo.org/records/11607943?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIwN2NhYjhlLThmNGQtNDllOC1iYWI2LTVmNThlZTVjNzkyMiIsImRhdGEiOnt9LCJyYW5kb20iOiIzM2I1YmYzNGQzNTViYjg3MGZlZDY4MDM3YjJhMmY1MyJ9.HBiLzhKg0-Hfnr7TrinVhhKuk_JkC4X5b4QEs3i7Fuebw0zQAJM8CVVew_7SqZPf6RYDq0gjBRayt8s8XL3kIQ).
+The custom code for the T2D example is stored in the "example_code/Hair_follicle" folder. Users need to adjust the working directories based on their date locations before running the scripts. We provide the output files in each step [here](https://zenodo.org/records/11607943?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIwN2NhYjhlLThmNGQtNDllOC1iYWI2LTVmNThlZTVjNzkyMiIsImRhdGEiOnt9LCJyYW5kb20iOiIzM2I1YmYzNGQzNTViYjg3MGZlZDY4MDM3YjJhMmY1MyJ9.HBiLzhKg0-Hfnr7TrinVhhKuk_JkC4X5b4QEs3i7Fuebw0zQAJM8CVVew_7SqZPf6RYDq0gjBRayt8s8XL3kIQ).
 
 1. **[Process the single-cell multi-omics dataset.](example_code/Hair_follicle/0.preprocess_HairFollicle.R.ipynb)**
   
@@ -170,18 +169,18 @@ The custom code for the T2D example was stored in the "example_code/Hair_follicl
    
 4. **[The first step of training for regX.](example_code/Hair_follicle/1.nn_train_step1.py)**
    
-   **Expected outputs**: the trained gene-level models and performance (each model was trained for three times under random seeds).   
+   **Expected outputs**: the trained gene-level models and performance (each model was trained three times under random seeds).   
    This step takes about 2-3 hours on the GPU.
 
 5. **[Extract the TAM matrices.](example_code/Hair_follicle/2.generate_TAM.py.ipynb)**
 
-   **Expected outputs**: The input TAM matrices, output labels and metadata for regX.   
+   **Expected outputs**: The input TAM matrices, output labels, and metadata for regX.   
    This step takes about an hour.
    
 6. **[The second step of training for regX.](example_code/Hair_follicle/3.nn_train_step2.py)**
 
-   **Expected outputs**: parameters of the trained model (the model was trained for 10 times under random seeds).    
-   This step takes about 2 hours on gpu.
+   **Expected outputs**: parameters of the trained model (the model was trained 10 times under random seeds).    
+   This step takes about 2 hours on GPU.
 
 7. **[Model interpretation: in-silico perturbation.](example_code/Hair_follicle/4.in-silico_perturbation.py.ipynb)**
 
@@ -191,7 +190,7 @@ The custom code for the T2D example was stored in the "example_code/Hair_follicl
 8. **[Prioritization and visualization of pdTFs.](example_code/Hair_follicle/5.prioritization_and_visualization.py.ipynb)**
 
    **Expected outputs**: state transitional graphs.   
-   This step takes about 2 minutes. The output files were provided in Extended Data Figures.
+   This step takes about 2 minutes. The output files are provided in the Supplementary Figures.
    
 
 ## T2D example
@@ -205,11 +204,11 @@ The custom code for the T2D example was stored in the "example_code/Hair_follicl
 * The genomic annotations of significant GWAS SNPs of T2D: download from the UCSC genome browser, or download the processed file from the "data" folder (https://github.com/xixi-cathy/regX/tree/main/data/GWAS_T2D_hg19_UCSC.csv).
 
 ### Step-by-step workflow
-The custom code for the T2D example was stored in the "example_code/T2D" folder. Users need to modify the working directories according to their date deposition before running the scripts. We provide part of the output files [here](https://zenodo.org/records/11608076?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjVhMzk5Nzk0LWQ0MDYtNDE3Yi1hNjZhLThjMmJhMDU0NjgyMyIsImRhdGEiOnt9LCJyYW5kb20iOiI1YjQ2Nzc3OTQ1OTNkNzkzMTU3ODU5YjBmZDNkMDdkNSJ9.Ha_9ZGH5wEOaiSu3LTRlqPgcbkQUVzrUN8DPkWeGRAZ3LArNlcRgDrxdESyXKpv7ag81twiWpz9TWsnTZwJMkg). The rest files are relatively large, and can be provided upon request.
+The custom code for the T2D example is stored in the "example_code/T2D" folder. Users need to adjust the working directories based on their date locations before running the scripts. We provide part of the output files [here](https://zenodo.org/records/11608076?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjVhMzk5Nzk0LWQ0MDYtNDE3Yi1hNjZhLThjMmJhMDU0NjgyMyIsImRhdGEiOnt9LCJyYW5kb20iOiI1YjQ2Nzc3OTQ1OTNkNzkzMTU3ODU5YjBmZDNkMDdkNSJ9.Ha_9ZGH5wEOaiSu3LTRlqPgcbkQUVzrUN8DPkWeGRAZ3LArNlcRgDrxdESyXKpv7ag81twiWpz9TWsnTZwJMkg). The remaining files are relatively large and can be provided upon request.
 
 1. **[Process the single cell multi-omics dataset.](example_code/T2D/0.preprocess_T2D.R.ipynb)**
   
-   **Expected outputs**: DE genes of cells from normal, non-diabetic and diabetic donors; pseudo-bulk samples and labels for model training.   
+   **Expected outputs**: DE genes of cells from normal, non-diabetic, and diabetic donors; pseudo-bulk samples and labels for model training.   
    This step takes about an hour.
    
 2. **[Process the JASPAR PFM matrix files.](example_code/T2D/0.process_JASPAR_pfm.py)**
@@ -219,12 +218,12 @@ The custom code for the T2D example was stored in the "example_code/T2D" folder.
    
 3. **[The first step of training for regX.](example_code/T2D/1.nn_train_step1.py)**
    
-   **Expected outputs**: the trained gene-level models (each model was trained for three times under random seeds).   
+   **Expected outputs**: the trained gene-level models (each model was trained three times under random seeds).   
    **Note:** This step takes more than 12 hours by running four scripts (1/4 genes in each script) simultaneously on the GPU.
 
 4. **[Extract the TAM matrices.](example_code/T2D/2.generate_TAM.py.ipynb)**
 
-   **Expected outputs**: The input TAM matrices, output labels and metadata for regX.   
+   **Expected outputs**: The input TAM matrices, output labels, and metadata for regX.   
    This step takes about an hour.
    
 5. **[Process the PPI network embedded in the model.](example_code/T2D/2.process_STRING_ppi.R.ipynb)**
@@ -234,20 +233,20 @@ The custom code for the T2D example was stored in the "example_code/T2D" folder.
    
 6. **[The second step of training for regX.](example_code/T2D/3.nn_train_step2.py)**
 
-   **Expected outputs**: parameters of the trained model (the model was trained for 10 times under random seeds).    
-   This step takes about 2 hours on gpu.
+   **Expected outputs**: parameters of the trained model (the model was trained 10 times under random seeds).    
+   This step takes about 2 hours on GPU.
 
 7. **[Model interpretation: in-silico perturbation.](example_code/T2D/4.in-silico_perturbation.py.ipynb)**
 
    **Expected outputs**: state-transitional probabilities before and after in-silico perturbation of TFs and cCREs.   
-   **Note:** This step takes about 12 hours on the GPU (mainly because perturbing the cCREs is time-consuming).
+   **Note:** This step takes about 12 hours on the GPU (because perturbing the cCREs is time-consuming).
 
 8. **[Prioritization and visualization of pdTFs and pdCREs.](example_code/T2D/5.prioritization_and_visualization.py.ipynb)**
 
    **Expected outputs**: state transitional graphs.   
-   This step takes about 2 minutes. The output files were provided in Extended Data Figures.
+   This step takes about 2 minutes. The output files are provided in the Supplementary Figures.
    
 9. **[Model interpretation: prioritize target genes of a pdTF.](example_code/T2D/6.TGs_of_pdTFs.py.ipynb)**
    
    **Expected outputs**: prioritization list of the target genes.   
-   This step takes about 5 minutes. The output files were provided in Supplementary tables.
+   This step takes about 5 minutes. The output files are provided in the Supplementary tables.
