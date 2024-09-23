@@ -48,12 +48,12 @@ We highly recommend installing Anaconda3, which supports isolated Python and R e
    filepath=/data1/xixi/regX/code_test/
    cd $filepath
    ```
-   For human: 
+   For human data: 
    ```
    wget https://stringdb-downloads.org/download/protein.links.v12.0/9606.protein.links.v12.0.txt.gz
    wget https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz
    ```
-   For mouse:
+   For mouse data:
    ```
    wget https://stringdb-downloads.org/download/protein.links.v12.0/10090.protein.links.v12.0.txt.gz
    wget https://stringdb-downloads.org/download/protein.info.v12.0/10090.protein.info.v12.0.txt.gz
