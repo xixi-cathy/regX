@@ -136,7 +136,7 @@ python run_regX-light.py --filepath $filepath --savepath $savepath --ref $refgen
 
 For more usage, please refer to the two examples below.
 
-# Example cases
+# Examples
 We provide two examples to demonstrate how to use regX. Users can run the scripts in each example folder in the specified numerical order.
 
 ## Hair follicle example
