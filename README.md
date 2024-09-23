@@ -30,7 +30,7 @@ We highly recommend installing Anaconda3, which supports isolated Python and R e
 
 # Usage on your own data
 ## Data preparation
-1. Download files in the data folder, and unzip them.
+1. Download files in the data folder, and unzip them. Download the custom code.
 2. (Compulsory) Replace the "rna.csv", "atac.csv", "label.csv", and "genes.txt" files with your own data. The file names and formats should be the same as what we provided.
 
    "rna.csv" contains the normalized gene expression levels of pseudo-bulk samples. "atac.csv" contains the normalized chromatin accessibilities of corresponding samples. "label.csv" contains the cell state labels of these samples. "genes.txt" contains a list of target genes to be included in the hidden layer of regX (better not to exceed 300 genes, or the computational cost will be very high).
