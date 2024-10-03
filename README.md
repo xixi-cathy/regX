@@ -35,15 +35,15 @@ We highly recommend installing Anaconda3, which supports isolated Python and R e
 
    "rna.csv" contains the normalized gene expression levels of pseudo-bulk samples. "atac.csv" contains the normalized chromatin accessibilities of corresponding samples. "label.csv" contains the cell state labels of these samples. "genes.txt" contains a list of target genes to be included in the hidden layer of regX (better not to exceed 300 genes, or the computational cost will be very high).
 
-   For pre-processing single-cell multi-omics data and generating pseudo-bulk samples, you may refer to our [example code](example_code/T2D/0.preprocess_T2D.R.ipynb) for more detail.
+   For pre-processing single-cell multi-omics data and generating pseudo-bulk samples, you may refer to our [example code](example_code/T2D/0.preprocess_T2D.R.ipynb) for more details.
    
 4. (Optional) If you wish to integrate GO functions into regX, replace the "go_filtered.txt" and "goa_filtered.txt" files with the GO graph and related GO annotations that you selected.
 
-   You may refer to our [example code](example_code/Hair_follicle/0.process_GO) for more detail.
+   You may refer to our [example code](example_code/Hair_follicle/0.process_GO) for more details.
    
    Genes in the "genes.txt" file should be consistent with those in the GO graph that you selected.
    
-5. (Optional) If you wish to integrate PPIs into regX, download PPI networks from the STRING database and place them in the same directory as the data files mentioned above.
+5. (Optional) If you would like to integrate PPIs into regX, download PPI networks from the STRING database and place them in the same directory as the data files mentioned above.
    ```
    filepath=/data1/xixi/regX/code_test/
    cd $filepath
@@ -101,7 +101,7 @@ We highly recommend installing Anaconda3, which supports isolated Python and R e
    ```
    You may freely choose a GCN, SAGEConv, or GAT model according to your needs. We recommend using GCN or SAGEConv for an undirected PPI network, and GAT for a directed GO graph. The performance of these structures on our demo data is relatively close, and can be found [here](figures/performance_comparison.png).
 
-5. Prioritize TFs and cCREs
+5. Prioritize potential driver TFs and cCREs between every two states
 
    **For TF prioritization:**
    
