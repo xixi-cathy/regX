@@ -15,7 +15,7 @@ We highly recommend installing Anaconda3, which supports isolated Python and R e
    pip install -r requirements.txt
    ```
 
-* **R environment** (optional, needed only for reproducing the two usage examples):
+* **R environment** (optional, needed only for reproducing the two example cases):
    ```
    conda env create -f environment.yml
    conda activate regXr
