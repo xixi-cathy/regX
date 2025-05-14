@@ -2,7 +2,7 @@
 This repository stores the custom code for the paper "A mechanism-informed deep neural network enables prioritization of regulators that drive cell state transitions".
 
 # Contact
-Xi Xi (xix19@mails.tsinghua.edu.cn)
+Xi Xi (xwx9798@gmail.com)
 
 
 # Environment setup
